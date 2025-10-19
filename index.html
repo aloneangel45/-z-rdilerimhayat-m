@@ -1,0 +1,873 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Benimle Barışır mısın?</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            overflow: hidden;
+        }
+
+        /* Açılış ekranı */
+        .intro-screen {
+            max-width: 700px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.98);
+            border-radius: 30px;
+            padding: 80px 40px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            animation: fadeIn 1s ease-in;
+            position: relative;
+            z-index: 10;
+        }
+
+        .intro-screen h1 {
+            font-size: 2em;
+            color: #764ba2;
+            margin-bottom: 20px;
+            animation: heartbeat 1.5s infinite;
+        }
+
+        .intro-screen p {
+            font-size: 1.1em;
+            color: #555;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+
+        .start-button {
+            padding: 15px 40px;
+            font-size: 1.3em;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: bold;
+            box-shadow: 0 10px 30px rgba(245, 87, 108, 0.4);
+            transition: all 0.3s ease;
+            font-family: 'Georgia', serif;
+            animation: buttonFloat 2s ease-in-out infinite;
+        }
+
+        @keyframes buttonFloat {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        .start-button:hover {
+            transform: scale(1.1) translateY(-5px);
+            box-shadow: 0 15px 40px rgba(245, 87, 108, 0.6);
+        }
+
+        .start-button:active {
+            transform: scale(0.95);
+        }
+
+        .floating-hearts-intro {
+            position: absolute;
+            font-size: 40px;
+            animation: floatIntro 4s ease-in-out infinite;
+            opacity: 0.6;
+        }
+
+        @keyframes floatIntro {
+            0%, 100% {
+                transform: translateY(0) rotate(0deg);
+            }
+            50% {
+                transform: translateY(-20px) rotate(10deg);
+            }
+        }
+
+        .container {
+            max-width: 700px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.98);
+            border-radius: 30px;
+            padding: 50px 40px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            animation: fadeIn 1s ease-in;
+            text-align: center;
+            position: relative;
+            z-index: 10;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @keyframes fadeOut {
+            from {
+                opacity: 1;
+                transform: scale(1);
+            }
+            to {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+        }
+
+        h1 {
+            color: #764ba2;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+            animation: heartbeat 1.5s infinite;
+        }
+
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            25% { transform: scale(1.05); }
+            50% { transform: scale(1); }
+        }
+
+        .photo-container {
+            margin: 30px 0;
+            position: relative;
+        }
+
+        .photo-container img {
+            max-width: 100%;
+            max-height: 300px;
+            height: auto;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            border: 5px solid white;
+        }
+
+        .audio-container {
+            margin: 20px 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            border-radius: 20px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .audio-label {
+            font-size: 1em;
+            color: #764ba2;
+            margin-bottom: 12px;
+            font-weight: bold;
+        }
+
+        audio {
+            width: 100%;
+            border-radius: 50px;
+            outline: none;
+        }
+
+        .buttons-container {
+            margin-top: 25px;
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            min-height: 60px;
+        }
+
+        .btn {
+            padding: 12px 35px;
+            font-size: 1.2em;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+            font-family: 'Georgia', serif;
+        }
+
+        .btn-yes {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            color: white;
+        }
+
+        .btn-yes:hover {
+            transform: scale(1.1);
+            box-shadow: 0 8px 30px rgba(17, 153, 142, 0.4);
+        }
+
+        .btn-no {
+            background: linear-gradient(135deg, #eb3349 0%, #f45c43 100%);
+            color: white;
+            position: relative;
+            transition: all 0.2s ease;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        /* Kutlama ekranı */
+        .celebration {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            animation: celebrationFade 0.5s ease-in;
+        }
+
+        @keyframes celebrationFade {
+            from {
+                opacity: 0;
+                transform: scale(0.5);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .celebration h1 {
+            font-size: 2.5em;
+            color: white;
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.3);
+            margin-bottom: 20px;
+            animation: bounce 1s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .celebration-message {
+            font-size: 1.3em;
+            color: white;
+            text-align: center;
+            max-width: 700px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            margin: 15px;
+            backdrop-filter: blur(10px);
+        }
+
+        .video-container {
+            margin: 30px 0;
+            max-width: 800px;
+            width: 90%;
+        }
+
+        .video-container video {
+            width: 100%;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            border: 5px solid white;
+        }
+
+        /* Gizli kalp butonu */
+        .secret-heart {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            font-size: 60px;
+            cursor: pointer;
+            animation: pulse 1.5s infinite;
+            z-index: 10001;
+            filter: drop-shadow(0 0 10px rgba(255, 105, 180, 0.8));
+            transition: transform 0.3s ease;
+        }
+
+        .secret-heart:hover {
+            transform: scale(1.2) rotate(10deg);
+        }
+
+        @keyframes pulse {
+            0%, 100% { 
+                transform: scale(1); 
+                filter: drop-shadow(0 0 10px rgba(255, 105, 180, 0.8));
+            }
+            50% { 
+                transform: scale(1.1); 
+                filter: drop-shadow(0 0 20px rgba(255, 105, 180, 1));
+            }
+        }
+
+        /* Oyun ekranı */
+        .game-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #ffeaa7 0%, #fdcb6e 100%);
+            z-index: 10002;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            animation: gameAppear 0.5s ease-in;
+        }
+
+        @keyframes gameAppear {
+            from {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .game-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .game-header h2 {
+            font-size: 2.5em;
+            color: #d63031;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+            margin-bottom: 10px;
+        }
+
+        .score {
+            font-size: 1.5em;
+            color: #2d3436;
+            font-weight: bold;
+        }
+
+        .game-area {
+            position: relative;
+            width: 90%;
+            max-width: 600px;
+            height: 500px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            cursor: crosshair;
+        }
+
+        .target-photo {
+            position: absolute;
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            border: 5px solid #d63031;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            object-fit: cover;
+        }
+
+        .target-photo:hover {
+            transform: scale(1.05);
+        }
+
+        .hammer {
+            position: fixed;
+            font-size: 60px;
+            pointer-events: none;
+            z-index: 10003;
+            transform: rotate(-45deg);
+            transition: transform 0.1s ease;
+        }
+
+        .hit-effect {
+            position: absolute;
+            font-size: 50px;
+            animation: hitPop 0.6s ease-out forwards;
+            pointer-events: none;
+        }
+
+        @keyframes hitPop {
+            0% {
+                transform: scale(0) rotate(0deg);
+                opacity: 1;
+            }
+            50% {
+                transform: scale(1.5) rotate(180deg);
+            }
+            100% {
+                transform: scale(0) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .close-game {
+            margin-top: 20px;
+            padding: 15px 40px;
+            font-size: 1.2em;
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: bold;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease;
+        }
+
+        .close-game:hover {
+            transform: scale(1.05);
+        }
+
+        /* Kalp animasyonları */
+        .heart {
+            position: fixed;
+            font-size: 40px;
+            animation: float 4s ease-in infinite;
+            pointer-events: none;
+            z-index: 9999;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            animation: confettiFall 3s linear infinite;
+            pointer-events: none;
+            z-index: 9999;
+        }
+
+        @keyframes confettiFall {
+            0% {
+                transform: translateY(-100px) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) rotate(720deg);
+                opacity: 0;
+            }
+        }
+
+        /* Müzik kontrol butonu */
+        .music-control {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            color: white;
+            font-size: 28px;
+            cursor: pointer;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .music-control:hover {
+            transform: scale(1.1);
+            box-shadow: 0 8px 30px rgba(118, 75, 162, 0.5);
+        }
+
+        .music-control:active {
+            transform: scale(0.95);
+        }
+
+        .music-control.playing {
+            animation: musicPulse 1.5s infinite;
+        }
+
+        @keyframes musicPulse {
+            0%, 100% {
+                box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+            }
+            50% {
+                box-shadow: 0 5px 30px rgba(118, 75, 162, 0.8);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 30px 20px;
+            }
+
+            h1 {
+                font-size: 2em;
+            }
+
+            .btn {
+                padding: 15px 35px;
+                font-size: 1.2em;
+            }
+
+            .celebration h1 {
+                font-size: 2.5em;
+            }
+
+            .celebration-message {
+                font-size: 1.3em;
+            }
+        }
+
+        .note {
+            margin-top: 20px;
+            font-size: 0.9em;
+            color: #666;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+    <!-- Açılış ekranı -->
+    <div class="intro-screen" id="introScreen">
+        <div class="floating-hearts-intro" style="top: 20px; left: 30px;">💕</div>
+        <div class="floating-hearts-intro" style="top: 50px; right: 40px; animation-delay: 0.5s;">💖</div>
+        <div class="floating-hearts-intro" style="bottom: 30px; left: 50px; animation-delay: 1s;">💗</div>
+        <div class="floating-hearts-intro" style="bottom: 60px; right: 30px; animation-delay: 1.5s;">❤️</div>
+        
+        <h1>💝 Sana Bir şey hazırladım💝</h1>
+        <p></p>
+        <p style="font-size: 1.2em; color: #888; margin-top: -30px;">Seni çok seviyorum ❤️</p>
+        <button class="start-button" id="startButton">✨ Bas Bakim ✨</button>
+    </div>
+
+    <!-- Ana ekran -->
+    <div class="container hidden" id="mainScreen">
+        <h1>💕 AŞKIM HATAM İÇİN COK ÖZÜR DİLERİM COK YANLIŞ ANLATTIM KENDİMİ BUGÜN İFADEM YANLIŞTI BENİMİLE BARIŞIRMISIN ? 💕</h1>
+        
+        <div class="photo-container">
+            <img src="özürfoto1.jpg" alt="Bizim için" id="mainPhoto">
+            <p class="note"></p>
+        </div>
+        
+        <div class="audio-container">
+            <div class="audio-label">🎵 Lütfen Dinle...</div>
+            <audio controls id="audioPlayer">
+                <source src="özürses.mp3" type="audio/mpeg">
+                <source src="YOUR_AUDIO_FILE.ogg" type="audio/ogg">
+                Tarayıcınız ses dosyasını desteklemiyor.
+            </audio>
+            <p class="note"></p>
+        </div>
+        
+        <div class="buttons-container" id="buttonsContainer">
+            <button class="btn btn-yes" id="btnYes">💕 EVET 💕</button>
+            <button class="btn btn-no" id="btnNo">❌ HAYIR</button>
+        </div>
+        
+        <!-- Müzik kontrol butonu -->
+        <button class="music-control playing" id="musicControl">🎵</button>
+        
+        <!-- Arka plan müziği -->
+        <audio id="backgroundMusic" loop>
+            <source src="müzik4.mp3" type="audio/mpeg">
+        </audio>
+    </div>
+
+    <!-- Kutlama ekranı -->
+    <div class="celebration hidden" id="celebrationScreen">
+        <h1>🎉 YEEEEEEEEE AŞKIMMMMMM HALA BENİ SEVİYORRRRRRRRRRRRRR! 🎉</h1>
+        <div class="celebration-message">
+            <p>Biliyordum! ❤️</p>
+            <p>Seni çok seviyorum! Böyle bir hata asla ve asla yapmıyacam tekrardan ÇOK ÖZÜR DİLERİM HAYATIM.</p>
+            <p>Sen benim her şeyimsin her zaman benim bıdıhımsın ne kadar büyük hata yaparsam yapim pes etmiyecem seni kaybedemem hayamının aşkını kaybedemem. 💕</p>
+        </div>
+        
+        <div class="video-container">
+            <video controls id="celebrationVideo">
+                <source src="video5.mp4" type="video/mp4">
+                Tarayıcınız video dosyasını desteklemiyor.
+            </video>
+            <p class="note" style="color: white; margin-top: 15px;">
+                
+            </p>
+        </div>
+        
+        <!-- Gizli kalp butonu -->
+        <div class="secret-heart" id="secretHeart">💖</div>
+    </div>
+
+    <!-- Oyun ekranı -->
+    <div class="game-screen hidden" id="gameScreen">
+        <div class="game-header">
+            <h2>🔨 Öfke Çıkarma Oyunu! 🔨</h2>
+            <div class="score">Vuruş Sayısı: <span id="hitCount">0</span></div>
+        </div>
+        
+        <div class="game-area" id="gameArea">
+            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300" 
+                 alt="Hedef" 
+                 class="target-photo" 
+                 id="targetPhoto">
+            <p style="position: absolute; bottom: 10px; left: 50%; transform: translateX(-50%); color: #666; font-size: 0.9em;">
+                Bu fotoğrafı kendi fotoğrafınızla değiştirin
+            </p>
+        </div>
+        
+        <button class="close-game" id="closeGame">Geri Dön 💕</button>
+        
+        <!-- Çekiç imleci -->
+        <div class="hammer" id="hammer">🔨</div>
+    </div>
+
+    <script>
+        const introScreen = document.getElementById('introScreen');
+        const startButton = document.getElementById('startButton');
+        const btnYes = document.getElementById('btnYes');
+        const btnNo = document.getElementById('btnNo');
+        const mainScreen = document.getElementById('mainScreen');
+        const celebrationScreen = document.getElementById('celebrationScreen');
+        const audioPlayer = document.getElementById('audioPlayer');
+        const secretHeart = document.getElementById('secretHeart');
+        const gameScreen = document.getElementById('gameScreen');
+        const closeGame = document.getElementById('closeGame');
+        const targetPhoto = document.getElementById('targetPhoto');
+        const hammer = document.getElementById('hammer');
+        const hitCountSpan = document.getElementById('hitCount');
+        const gameArea = document.getElementById('gameArea');
+        const backgroundMusic = document.getElementById('backgroundMusic');
+        const musicControl = document.getElementById('musicControl');
+
+        let hitCount = 0;
+        let gameActive = false;
+        let isMusicPlaying = false;
+
+        // Açılış ekranından ana ekrana geçiş
+        startButton.addEventListener('click', function() {
+            introScreen.style.animation = 'fadeOut 0.5s ease-out forwards';
+            
+            setTimeout(() => {
+                introScreen.classList.add('hidden');
+                mainScreen.classList.remove('hidden');
+                mainScreen.style.animation = 'fadeIn 0.5s ease-in';
+                
+                // Arka plan müziğini başlat
+                backgroundMusic.play();
+                isMusicPlaying = true;
+                musicControl.classList.add('playing');
+            }, 500);
+        });
+
+        // Müzik kontrol butonu
+        musicControl.addEventListener('click', function() {
+            if (isMusicPlaying) {
+                backgroundMusic.pause();
+                musicControl.innerHTML = '🔇';
+                musicControl.classList.remove('playing');
+                isMusicPlaying = false;
+            } else {
+                backgroundMusic.play();
+                musicControl.innerHTML = '🎵';
+                musicControl.classList.add('playing');
+                isMusicPlaying = true;
+            }
+        });
+
+        // Hayır butonu için kaçış fonksiyonu
+        btnNo.addEventListener('mouseenter', function() {
+            const x = Math.random() * (window.innerWidth - btnNo.offsetWidth - 100);
+            const y = Math.random() * (window.innerHeight - btnNo.offsetHeight - 100);
+            
+            btnNo.style.position = 'fixed';
+            btnNo.style.left = x + 'px';
+            btnNo.style.top = y + 'px';
+        });
+
+        btnNo.addEventListener('touchstart', function(e) {
+            e.preventDefault();
+            const x = Math.random() * (window.innerWidth - btnNo.offsetWidth - 100);
+            const y = Math.random() * (window.innerHeight - btnNo.offsetHeight - 100);
+            
+            btnNo.style.position = 'fixed';
+            btnNo.style.left = x + 'px';
+            btnNo.style.top = y + 'px';
+        });
+
+        // Evet butonuna tıklayınca
+        btnYes.addEventListener('click', function() {
+            mainScreen.classList.add('hidden');
+            celebrationScreen.classList.remove('hidden');
+            
+            // Kalp yağmuru
+            createHearts();
+            
+            // Konfeti
+            createConfetti();
+        });
+
+        // Gizli kalbe tıklayınca oyun açılır
+        secretHeart.addEventListener('click', function() {
+            celebrationScreen.classList.add('hidden');
+            gameScreen.classList.remove('hidden');
+            gameActive = true;
+            hitCount = 0;
+            hitCountSpan.textContent = hitCount;
+            moveTarget();
+        });
+
+        // Oyunu kapat
+        closeGame.addEventListener('click', function() {
+            gameScreen.classList.add('hidden');
+            celebrationScreen.classList.remove('hidden');
+            gameActive = false;
+        });
+
+        // Çekiç imleç hareketi
+        document.addEventListener('mousemove', function(e) {
+            if (gameActive) {
+                hammer.style.left = e.clientX + 'px';
+                hammer.style.top = e.clientY + 'px';
+            }
+        });
+
+        // Hedef fotoğrafa vuruş
+        targetPhoto.addEventListener('click', function(e) {
+            hitCount++;
+            hitCountSpan.textContent = hitCount;
+            
+            // Çekiç animasyonu
+            hammer.style.transform = 'rotate(-45deg) scale(1.5)';
+            setTimeout(() => {
+                hammer.style.transform = 'rotate(-45deg) scale(1)';
+            }, 100);
+            
+            // Vuruş efekti
+            const effects = ['💥', '⭐', '💫', '✨', '🌟', '💢'];
+            const effect = document.createElement('div');
+            effect.className = 'hit-effect';
+            effect.innerHTML = effects[Math.floor(Math.random() * effects.length)];
+            effect.style.left = e.clientX - gameArea.offsetLeft + 'px';
+            effect.style.top = e.clientY - gameArea.offsetTop + 'px';
+            gameArea.appendChild(effect);
+            
+            setTimeout(() => {
+                effect.remove();
+            }, 600);
+            
+            // Fotoğrafı hareket ettir
+            moveTarget();
+            
+            // Fotoğraf sarsılma efekti
+            targetPhoto.style.transform = 'scale(0.9) rotate(10deg)';
+            setTimeout(() => {
+                targetPhoto.style.transform = 'scale(1) rotate(0deg)';
+            }, 200);
+        });
+
+        // Hedefi rastgele konuma taşı
+        function moveTarget() {
+            const maxX = gameArea.offsetWidth - targetPhoto.offsetWidth - 10;
+            const maxY = gameArea.offsetHeight - targetPhoto.offsetHeight - 10;
+            
+            const randomX = Math.random() * maxX;
+            const randomY = Math.random() * maxY;
+            
+            targetPhoto.style.left = randomX + 'px';
+            targetPhoto.style.top = randomY + 'px';
+        }
+
+        // Kalp yağmuru oluştur
+        function createHearts() {
+            const hearts = ['❤️', '💕', '💖', '💗', '💓', '💝'];
+            
+            setInterval(() => {
+                const heart = document.createElement('div');
+                heart.className = 'heart';
+                heart.innerHTML = hearts[Math.floor(Math.random() * hearts.length)];
+                heart.style.left = Math.random() * 100 + '%';
+                heart.style.animationDuration = (Math.random() * 2 + 3) + 's';
+                heart.style.fontSize = (Math.random() * 30 + 30) + 'px';
+                document.body.appendChild(heart);
+                
+                setTimeout(() => {
+                    heart.remove();
+                }, 5000);
+            }, 300);
+        }
+
+        // Konfeti oluştur
+        function createConfetti() {
+            const colors = ['#ff6b6b', '#4ecdc4', '#45b7d1', '#f9ca24', '#6c5ce7', '#fd79a8'];
+            
+            setInterval(() => {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.left = Math.random() * 100 + '%';
+                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.animationDuration = (Math.random() * 2 + 2) + 's';
+                confetti.style.animationDelay = Math.random() + 's';
+                document.body.appendChild(confetti);
+                
+                setTimeout(() => {
+                    confetti.remove();
+                }, 4000);
+            }, 100);
+        }
+
+        // Tıklama efekti
+        document.addEventListener('click', function(e) {
+            const sparkle = document.createElement('div');
+            sparkle.innerHTML = '✨';
+            sparkle.style.position = 'fixed';
+            sparkle.style.left = e.clientX + 'px';
+            sparkle.style.top = e.clientY + 'px';
+            sparkle.style.fontSize = '30px';
+            sparkle.style.pointerEvents = 'none';
+            sparkle.style.animation = 'float 1s ease-out forwards';
+            sparkle.style.zIndex = '9999';
+            document.body.appendChild(sparkle);
+            
+            setTimeout(() => {
+                sparkle.remove();
+            }, 1000);
+        });
+
+        console.log('📝 NASIL DÜZENLENECEK:');
+        console.log('1. Ana fotoğraf: özürfoto1.jpg dosyasını yükleyin');
+        console.log('2. Özür ses kaydı: özürses.mp3 dosyasını yükleyin');
+        console.log('3. ARKA PLAN MÜZİĞİ: YOUR_BACKGROUND_MUSIC.mp3 yerine şarkı dosyanızın adını yazın');
+        console.log('4. Video dosyası: YOUR_VIDEO_FILE.mp4 yerine video dosyanızın adını yazın');
+        console.log('5. Oyun fotoğrafı: targetPhoto id\'li img elementinin src\'sini değiştirin');
+        console.log('');
+        console.log('🎵 MÜZİK: Sol alttaki butona tıklayarak müziği açıp kapatabilirsiniz!');
+        console.log('🎮 OYUN: Kutlama ekranında sağ alttaki kalbe tıklayın!');
+    </script>
+</body>
+</html>
